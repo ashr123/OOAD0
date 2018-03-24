@@ -31,11 +31,11 @@ public class Worker
 //			stmt.execute("DROP TABLE Workers;");
 			stmt.execute("CREATE TABLE IF NOT EXISTS Workers"+
 			             '('+
-			             "ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 100000000 AND 999999999),"+
-			             "firstName VARCHAR(20) NOT NULL,"+
-			             "lastName VARCHAR(20) NOT NULL,"+
-			             "salary REAL NOT NULL CHECK (salary>=0),"+
-			             "leavingDate TEXT DEFAULT NULL"+
+			                "ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 100000000 AND 999999999),"+
+			                "firstName VARCHAR(20) NOT NULL,"+
+			                "lastName VARCHAR(20) NOT NULL,"+
+			                "salary REAL NOT NULL CHECK (salary>=0),"+
+			                "leavingDate TEXT DEFAULT NULL"+
 			             ");"
 			            );
 		}
