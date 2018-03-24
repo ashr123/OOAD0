@@ -77,7 +77,7 @@ public class Worker
 					return new Worker(resultSet.getInt("ID"),
 					                  resultSet.getString("firstName"),
 					                  resultSet.getString("lastName"),
-					                  resultSet.getDate("leavingDate"),
+					                  Date.valueOf(resultSet.getString("leavingDate")),
 					                  resultSet.getDouble("salary"));
 				else
 					return null;
