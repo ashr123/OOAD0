@@ -6,9 +6,9 @@ public class Main
 	public static void main(String[] args)
 	{
 //		Employee.connect();
-		Employee.addWorker(308007749, "Roy", "Ash", 20000);
-		System.out.println(Employee.getWorker(308007749));
-		Employee.getWorker(308007749).updateWorker("Roy", "Ash", true, 20000);
-		System.out.println(Employee.getWorker(308007749));
+		Employee.addEmployee(308007749, "Roy", "Ash", 20000);
+		System.out.println(Employee.getEmployee(308007749));
+		Employee.getEmployee(308007749).updateEmployee("Roy", "Ash", true, 20000);
+		System.out.println(Employee.getEmployee(308007749));
 	}
 }

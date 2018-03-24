@@ -8,7 +8,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 /**
- * Represents an employee in a neighborhood grocery store
+ * Represents an employee in a neighborhood grocery store.
+ * Also immutable object.
  */
 public class Employee
 {
@@ -16,7 +17,9 @@ public class Employee
 	private String firstName, lastName;
 	private Date leavingDate;
 	private double salary;
-
+	
+	
+	//Initiates the DB for the first time if not exists.
 	static
 	{
 		synchronized (Employee.class)
@@ -24,8 +27,8 @@ public class Employee
 			try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
 			     Statement stmt=conn.createStatement())
 			{
-				stmt.execute("DROP TABLE IF EXISTS Workers;");
-				stmt.execute("CREATE TABLE IF NOT EXISTS Workers"+
+//				stmt.execute("DROP TABLE IF EXISTS Employees;");
+				stmt.execute("CREATE TABLE IF NOT EXISTS Employees"+
 				             '('+
 				             "ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 100000000 AND 999999999),"+
 				             "firstName VARCHAR(20) NOT NULL,"+
@@ -41,7 +44,16 @@ public class Employee
 			}
 		}
 	}
-
+	
+	/**
+	 * <p>Constructor</p>
+	 * Private because it's not allowed to create an independent {@link Employee} outside the DB.
+	 * @param ID the Identity number of the employee
+	 * @param firstName the first name of the employee
+	 * @param lastName the last name of the employee
+	 * @param leavingDate {@code null} if the employee is working in the store, otherwise, indicates the date of leaving
+	 * @param salary the salary of the employee
+	 */
 	private Employee(int ID, String firstName, String lastName, Date leavingDate, double salary)
 	{
 		this.ID=ID;
@@ -50,12 +62,20 @@ public class Employee
 		this.leavingDate=leavingDate;
 		this.salary=salary;
 	}
-
-	public static boolean addWorker(int ID, String firstName, String lastName, double salary)
+	
+	/**
+	 * Adds a new employee to the store
+	 * @param ID the Identity number of the employee
+	 * @param firstName the first name of the employee
+	 * @param lastName the last name of the employee
+	 * @param salary the salary of the employee
+	 * @return {@code true} if the employee was added successfully to the DB, {@code false} otherwise
+	 */
+	public static boolean addEmployee(int ID, String firstName, String lastName, double salary)
 	{
 		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
 		     PreparedStatement stmt=conn.prepareStatement(
-				     "INSERT INTO Workers (ID, firstName, lastName, salary) VALUES (?, ?, ?, ?);"))
+				     "INSERT INTO Employees (ID, firstName, lastName, salary) VALUES (?, ?, ?, ?);"))
 		{
 			stmt.setInt(1, ID);
 			stmt.setString(2, firstName.trim());
@@ -70,11 +90,16 @@ public class Employee
 			return false;
 		}
 	}
-
-	public static Employee getWorker(int ID)
+	
+	/**
+	 * Gets an existing employee from the DB by it's ID
+	 * @param ID the Identity number of the employee
+	 * @return an {@link Employee} if it's ID exists in the DB, {@code null} otherwise
+	 */
+	public static Employee getEmployee(int ID)
 	{
 		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
-		     PreparedStatement stmt=conn.prepareStatement("SELECT * FROM Workers WHERE ID=?;"))
+		     PreparedStatement stmt=conn.prepareStatement("SELECT * FROM Employees WHERE ID=?;"))
 		{
 			stmt.setInt(1, ID);
 			try (ResultSet resultSet=stmt.executeQuery())
@@ -122,12 +147,20 @@ public class Employee
 	{
 		return salary;
 	}
-
-	public boolean updateWorker(String firstName, String lastName, boolean isLeaving, double salary)
+	
+	/**
+	 * Updates an existing employee
+	 * @param ID the Identity number of the employee to be searched
+	 * @param firstName the new first name of the employee
+	 * @param lastName the new last name of the employee
+	 * @param salary the new salary of the employee
+	 * @return {@code true} if the update was successful, {@code false} otherwise
+	 */
+	public boolean updateEmployee(String firstName, String lastName, boolean isLeaving, double salary)
 	{
 		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
 		     PreparedStatement stmt=conn.prepareStatement(
-				     "UPDATE Workers SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
+				     "UPDATE Employees SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
 		{
 			stmt.setString(1, firstName=firstName.trim());
 			stmt.setString(2, lastName=lastName.trim());
@@ -150,7 +183,7 @@ public class Employee
 	@Override
 	public boolean equals(Object o)
 	{
-		return this==o || o!=null && getClass()==o.getClass() && getID()==((Employee) o).getID();
+		return (this==o || o!=null) && getClass()==o.getClass() && getID()==((Employee)o).getID();
 	}
 
 	@Override
