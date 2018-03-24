@@ -24,7 +24,7 @@ public class Employee
 			try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
 			     Statement stmt=conn.createStatement())
 			{
-//				stmt.execute("DROP TABLE Workers;");
+				stmt.execute("DROP TABLE IF EXISTS Workers;");
 				stmt.execute("CREATE TABLE IF NOT EXISTS Workers"+
 				             '('+
 				             "ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 100000000 AND 999999999),"+
@@ -83,7 +83,9 @@ public class Employee
 					return new Employee(resultSet.getInt("ID"),
 					                    resultSet.getString("firstName"),
 					                    resultSet.getString("lastName"),
-					                    Date.valueOf(resultSet.getString("leavingDate")),
+					                    resultSet.getString("leavingDate")!=null ?
+					                    Date.valueOf(resultSet.getString("leavingDate")) :
+					                    null,
 					                    resultSet.getDouble("salary"));
 				else
 					return null;
