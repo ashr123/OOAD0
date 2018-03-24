@@ -118,7 +118,8 @@ public class Worker
 	public boolean updateWorker(String firstName, String lastName, boolean isLeaving, double salary)
 	{
 		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
-		     PreparedStatement stmt=conn.prepareStatement("UPDATE Workers SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
+		     PreparedStatement stmt=conn.prepareStatement(
+				     "UPDATE Workers SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
 		{
 			stmt.setString(1, firstName=firstName.trim());
 			stmt.setString(2, lastName=lastName.trim());
@@ -141,7 +142,7 @@ public class Worker
 	@Override
 	public boolean equals(Object o)
 	{
-		return this==o || o!=null && getClass()==o.getClass() && getID()==((Worker)o).getID();
+		return this==o || o!=null && getClass()==o.getClass() && getID()==((Worker) o).getID();
 	}
 
 	@Override
