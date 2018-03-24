@@ -5,7 +5,6 @@ public class Main
 	 */
 	public static void main(String[] args)
 	{
-//		Employee.connect();
 		Employee.addEmployee(308007749, "Roy", "Ash", 20000);
 		System.out.println(Employee.getEmployee(308007749));
 		Employee.getEmployee(308007749).updateEmployee("Roy", "Ash", true, 20000);

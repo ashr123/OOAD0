@@ -164,7 +164,7 @@ public class Employee
 			stmt.setString(1, firstName=firstName.trim());
 			stmt.setString(2, lastName=lastName.trim());
 			stmt.setDouble(3, salary);
-			stmt.setInt(4, ID);
+			stmt.setInt(4, getID());
 			stmt.executeUpdate();
 			this.leavingDate=isLeaving ? Date.valueOf(LocalDate.now()) : null;
 			this.firstName=firstName;
@@ -189,11 +189,11 @@ public class Employee
 	public String toString()
 	{
 		return "Employee{"+
-		       "ID="+ID+
-		       ", First name='"+firstName+'\''+
-		       ", Last name='"+lastName+'\''+
-		       ", Leaving date="+leavingDate+
-		       ", Salary="+salary+
+		       "ID="+getID()+
+		       ", First name='"+getFirstName()+'\''+
+		       ", Last name='"+getLastName()+'\''+
+		       ", Leaving date="+getLeavingDate()+
+		       ", Salary="+getSalary()+
 		       '}';
 	}
 }
