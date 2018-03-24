@@ -18,7 +18,6 @@ public class Employee
 	private Date leavingDate;
 	private double salary;
 	
-	
 	//Initiates the DB for the first time if not exists.
 	static
 	{
@@ -41,6 +40,7 @@ public class Employee
 			catch (SQLException e)
 			{
 				System.out.println(e);
+				System.exit(1);
 			}
 		}
 	}
@@ -74,8 +74,7 @@ public class Employee
 	public static boolean addEmployee(int ID, String firstName, String lastName, double salary)
 	{
 		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
-		     PreparedStatement stmt=conn.prepareStatement(
-				     "INSERT INTO Employees (ID, firstName, lastName, salary) VALUES (?, ?, ?, ?);"))
+		     PreparedStatement stmt=conn.prepareStatement("INSERT INTO Employees (ID, firstName, lastName, salary) VALUES (?, ?, ?, ?);"))
 		{
 			stmt.setInt(1, ID);
 			stmt.setString(2, firstName.trim());
@@ -150,10 +149,10 @@ public class Employee
 	
 	/**
 	 * Updates an existing employee
-	 * @param ID the Identity number of the employee to be searched
 	 * @param firstName the new first name of the employee
 	 * @param lastName the new last name of the employee
 	 * @param salary the new salary of the employee
+	 * @param isLeaving indicates if the employee is working in the store or not
 	 * @return {@code true} if the update was successful, {@code false} otherwise
 	 */
 	public boolean updateEmployee(String firstName, String lastName, boolean isLeaving, double salary)
