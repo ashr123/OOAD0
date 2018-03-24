@@ -17,6 +17,31 @@ public class Employee
 	private Date leavingDate;
 	private double salary;
 
+	static
+	{
+		synchronized (Employee.class)
+		{
+			try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
+			     Statement stmt=conn.createStatement())
+			{
+//				stmt.execute("DROP TABLE Workers;");
+				stmt.execute("CREATE TABLE IF NOT EXISTS Workers"+
+				             '('+
+				             "ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 100000000 AND 999999999),"+
+				             "firstName VARCHAR(20) NOT NULL,"+
+				             "lastName VARCHAR(20) NOT NULL,"+
+				             "salary REAL NOT NULL CHECK (salary>=0),"+
+				             "leavingDate TEXT DEFAULT NULL"+
+				             ");"
+				            );
+			}
+			catch (SQLException e)
+			{
+				System.out.println(e);
+			}
+		}
+	}
+
 	private Employee(int ID, String firstName, String lastName, Date leavingDate, double salary)
 	{
 		this.ID=ID;
@@ -24,28 +49,6 @@ public class Employee
 		this.lastName=lastName;
 		this.leavingDate=leavingDate;
 		this.salary=salary;
-	}
-
-	public static void connect()
-	{
-		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
-		     Statement stmt=conn.createStatement())
-		{
-//			stmt.execute("DROP TABLE Workers;");
-			stmt.execute("CREATE TABLE IF NOT EXISTS Workers"+
-			             '('+
-			                "ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 100000000 AND 999999999),"+
-			                "firstName VARCHAR(20) NOT NULL,"+
-			                "lastName VARCHAR(20) NOT NULL,"+
-			                "salary REAL NOT NULL CHECK (salary>=0),"+
-			                "leavingDate TEXT DEFAULT NULL"+
-			             ");"
-			            );
-		}
-		catch (SQLException e)
-		{
-			System.out.println(e);
-		}
 	}
 
 	public static boolean addWorker(int ID, String firstName, String lastName, double salary)
