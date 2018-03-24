@@ -13,6 +13,7 @@ import java.time.LocalDate;
  */
 public class Employee
 {
+	private static final String DB_CON_URL="jdbc:sqlite:mydb.db";
 	private final int ID;
 	private String firstName, lastName;
 	private Date leavingDate;
@@ -23,7 +24,7 @@ public class Employee
 	{
 		synchronized (Employee.class)
 		{
-			try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
+			try (Connection conn=DriverManager.getConnection(DB_CON_URL);
 			     Statement stmt=conn.createStatement())
 			{
 //				stmt.execute("DROP TABLE IF EXISTS Employees;");
@@ -73,7 +74,7 @@ public class Employee
 	 */
 	public static boolean addEmployee(int ID, String firstName, String lastName, double salary)
 	{
-		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
+		try (Connection conn=DriverManager.getConnection(DB_CON_URL);
 		     PreparedStatement stmt=conn.prepareStatement("INSERT INTO Employees (ID, firstName, lastName, salary) VALUES (?, ?, ?, ?);"))
 		{
 			stmt.setInt(1, ID);
@@ -97,7 +98,7 @@ public class Employee
 	 */
 	public static Employee getEmployee(int ID)
 	{
-		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
+		try (Connection conn=DriverManager.getConnection(DB_CON_URL);
 		     PreparedStatement stmt=conn.prepareStatement("SELECT * FROM Employees WHERE ID=?;"))
 		{
 			stmt.setInt(1, ID);
@@ -155,9 +156,10 @@ public class Employee
 	 * @param isLeaving indicates if the employee is working in the store or not
 	 * @return {@code true} if the update was successful, {@code false} otherwise
 	 */
-	public boolean updateEmployee(String firstName, String lastName, boolean isLeaving, double salary)
+	public synchronized boolean updateEmployee(String firstName, String lastName, boolean isLeaving,
+	                                           double salary)
 	{
-		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
+		try (Connection conn=DriverManager.getConnection(DB_CON_URL);
 		     PreparedStatement stmt=conn.prepareStatement(
 				     "UPDATE Employees SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
 		{
