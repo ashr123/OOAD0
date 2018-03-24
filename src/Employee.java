@@ -8,16 +8,16 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 /**
- * Represents a neighborhood convenience store
+ * Represents an employee in a neighborhood grocery store
  */
-public class Worker
+public class Employee
 {
 	private final int ID;
 	private String firstName, lastName;
 	private Date leavingDate;
 	private double salary;
 
-	private Worker(int ID, String firstName, String lastName, Date leavingDate, double salary)
+	private Employee(int ID, String firstName, String lastName, Date leavingDate, double salary)
 	{
 		this.ID=ID;
 		this.firstName=firstName;
@@ -68,7 +68,7 @@ public class Worker
 		}
 	}
 
-	public static Worker getWorker(int ID)
+	public static Employee getWorker(int ID)
 	{
 		try (Connection conn=DriverManager.getConnection("jdbc:sqlite:mydb.db");
 		     PreparedStatement stmt=conn.prepareStatement("SELECT * FROM Workers WHERE ID=?;"))
@@ -77,11 +77,11 @@ public class Worker
 			try (ResultSet resultSet=stmt.executeQuery())
 			{
 				if (resultSet.next())
-					return new Worker(resultSet.getInt("ID"),
-					                  resultSet.getString("firstName"),
-					                  resultSet.getString("lastName"),
-					                  Date.valueOf(resultSet.getString("leavingDate")),
-					                  resultSet.getDouble("salary"));
+					return new Employee(resultSet.getInt("ID"),
+					                    resultSet.getString("firstName"),
+					                    resultSet.getString("lastName"),
+					                    Date.valueOf(resultSet.getString("leavingDate")),
+					                    resultSet.getDouble("salary"));
 				else
 					return null;
 			}
@@ -145,13 +145,13 @@ public class Worker
 	@Override
 	public boolean equals(Object o)
 	{
-		return this==o || o!=null && getClass()==o.getClass() && getID()==((Worker) o).getID();
+		return this==o || o!=null && getClass()==o.getClass() && getID()==((Employee) o).getID();
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Worker{"+
+		return "Employee{"+
 		       "ID="+ID+
 		       ", First name='"+firstName+'\''+
 		       ", Last name='"+lastName+'\''+

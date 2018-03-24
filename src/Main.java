@@ -5,10 +5,10 @@ public class Main
 	 */
 	public static void main(String[] args)
 	{
-		Worker.connect();
-//		Worker.addWorker(308007749, "Roy", "Ash", 20000);
-//		System.out.println(Worker.getWorker(308007749));
-//		Worker.getWorker(308007749).updateWorker("Roy", "Ash", true, 20000);
-		System.out.println(Worker.getWorker(308007749));
+		Employee.connect();
+		Employee.addWorker(308007749, "Roy", "Ash", 20000);
+		System.out.println(Employee.getWorker(308007749));
+		Employee.getWorker(308007749).updateWorker("Roy", "Ash", true, 20000);
+		System.out.println(Employee.getWorker(308007749));
 	}
 }
