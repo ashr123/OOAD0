@@ -29,13 +29,20 @@ public class Main
 					lname=sc.nextLine();
 					System.out.print("Salary: ");
 					salary=Double.parseDouble(sc.nextLine());
-					Employee.addEmployee(id, fname, lname, salary);
+					if(Employee.addEmployee(id, fname, lname, salary))
+						System.out.println("success");
 					break;
 				}
 				case "Update":
 				{
 					System.out.print("Id: ");
-					id=Integer.parseInt(args[1]);
+					id=Integer.parseInt(sc.nextLine());
+					Employee emp=Employee.getEmployee(id);
+					if (emp==null)
+					{
+						System.out.println("No such employee exists");
+						break;
+					}
 					System.out.print("Fist name: ");
 					fname=sc.nextLine();
 					System.out.print("Last name: ");
@@ -45,12 +52,6 @@ public class Main
 					System.out.println("Is leaving(Y/N): ");
 					if(sc.nextLine().equals("Y"))
 						isLeaving=true;
-					Employee emp=Employee.getEmployee(id);
-					if (emp==null)
-					{
-						System.out.println("No such employee exists");
-						break;
-					}
 					emp.updateEmployee(fname, lname, isLeaving, salary);
 					break;
 				}
