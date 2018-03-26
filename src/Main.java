@@ -15,11 +15,11 @@ public class Main
 			double salary;
 			String fname, lname;
 			boolean isLeaving=false;
-			System.out.println("Enter command, or 'exit' to end program:");
+			System.out.println("Enter command: 'add'/'update'/'get'/'exit':");
 			String comm=sc.nextLine();
 			switch (comm)
 			{
-				case "Add":
+				case "add":
 				{
 					System.out.print("Id: ");
 					id=Integer.parseInt(sc.nextLine());
@@ -29,11 +29,11 @@ public class Main
 					lname=sc.nextLine();
 					System.out.print("Salary: ");
 					salary=Double.parseDouble(sc.nextLine());
-					if(Employee.addEmployee(id, fname, lname, salary))
+					if (Employee.addEmployee(id, fname, lname, salary))
 						System.out.println("success");
 					break;
 				}
-				case "Update":
+				case "update":
 				{
 					System.out.print("Id: ");
 					id=Integer.parseInt(sc.nextLine());
@@ -49,17 +49,18 @@ public class Main
 					lname=sc.nextLine();
 					System.out.print("Salary: ");
 					salary=Double.parseDouble(sc.nextLine());
-					System.out.println("Is leaving(Y/N): ");
-					if(sc.nextLine().equals("Y"))
+					System.out.print("Is leaving(Y/N): ");
+					if (sc.nextLine().equals("Y"))
 						isLeaving=true;
 					emp.updateEmployee(fname, lname, isLeaving, salary);
 					break;
 				}
-				case "Get":
+				case "get":
 				{
 					System.out.print("Id: ");
 					id=Integer.parseInt(sc.nextLine());
 					System.out.println(Employee.getEmployee(id));
+					break;
 				}
 				case "exit":
 				{
@@ -73,10 +74,5 @@ public class Main
 				}
 			}
 		}
-
-		//Employee.addEmployee(308007749, "Roy", "Ash", 20000,null);
-		//System.out.println(Employee.getEmployee(308007749));
-		//Employee.getEmployee(308007749).updateEmployee("Roy", "Ash", true, 20000);
-		//System.out.println(Employee.getEmployee(308007749));
 	}
 }
