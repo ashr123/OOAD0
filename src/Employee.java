@@ -75,7 +75,7 @@ public class Employee
 	public static boolean addEmployee(int ID, String firstName, String lastName, double salary)
 	{
 		try (Connection conn=DriverManager.getConnection(DB_CON_URL);
-		     PreparedStatement stmt=conn.prepareStatement("INSERT INTO Employees (ID, firstName, lastName, salary, leavingDate) VALUES (?, ?, ?, ?, ?);"))
+		     PreparedStatement stmt=conn.prepareStatement("INSERT INTO Employees (ID, firstName, lastName, salary) VALUES (?, ?, ?, ?);"))
 		{
 			stmt.setInt(1, ID);
 			stmt.setString(2, firstName.trim());
