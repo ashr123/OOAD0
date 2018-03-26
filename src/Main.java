@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main
 {
 	/**
@@ -5,7 +7,7 @@ public class Main
 	 */
 	public static void main(String[] args)
 	{
-		
+		Scanner sc=new Scanner(System.in);
 		boolean exit=false;
 		while (!exit)
 		{
@@ -14,34 +16,34 @@ public class Main
 			String fname, lname;
 			boolean isLeaving=false;
 			System.out.println("Enter command, or 'exit' to end program:");
-			switch (args[0])
+			String comm=sc.nextLine();
+			switch (comm)
 			{
 				case "Add":
 				{
-					if (args.length!=5)
-					{
-						System.out.println("Illegal arguments for Add command");
-						break;
-					}
-					id=Integer.parseInt(args[1]);
-					fname=args[2];
-					lname=args[3];
-					salary=Double.parseDouble(args[4]);
+					System.out.print("Id: ");
+					id=Integer.parseInt(sc.nextLine());
+					System.out.print("First name: ");
+					fname=sc.nextLine();
+					System.out.print("Last name: ");
+					lname=sc.nextLine();
+					System.out.print("Salary: ");
+					salary=Double.parseDouble(sc.nextLine());
 					Employee.addEmployee(id, fname, lname, salary);
 					break;
 				}
 				case "Update":
 				{
-					if (args.length!=6)
-					{
-						System.out.println("Illegal arguments for Update command");
-						break;
-					}
+					System.out.print("Id: ");
 					id=Integer.parseInt(args[1]);
-					fname=args[2];
-					lname=args[3];
-					salary=Double.parseDouble(args[4]);
-					if (args[5].equals("Y"))
+					System.out.print("Fist name: ");
+					fname=sc.nextLine();
+					System.out.print("Last name: ");
+					lname=sc.nextLine();
+					System.out.print("Salary: ");
+					salary=Double.parseDouble(sc.nextLine());
+					System.out.println("Is leaving(Y/N): ");
+					if(sc.nextLine().equals("Y"))
 						isLeaving=true;
 					Employee emp=Employee.getEmployee(id);
 					if (emp==null)
@@ -54,12 +56,8 @@ public class Main
 				}
 				case "Get":
 				{
-					if (args.length!=2)
-					{
-						System.out.println("Illegal arguments for Get command");
-						break;
-					}
-					id=Integer.parseInt(args[1]);
+					System.out.print("Id: ");
+					id=Integer.parseInt(sc.nextLine());
 					System.out.println(Employee.getEmployee(id));
 				}
 				case "exit":
