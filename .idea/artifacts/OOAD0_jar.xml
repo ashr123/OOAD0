@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="OOAD0:jar">
+    <output-path>$USER_HOME$/Desktop</output-path>
+    <root id="archive" name="OOAD0.jar">
+      <element id="module-output" name="OOAD0" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/sqlite-jdbc-3.21.0.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+    </root>
+  </artifact>
+</component>

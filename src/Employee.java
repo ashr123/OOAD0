@@ -160,8 +160,7 @@ public class Employee
 	                                           double salary)
 	{
 		try (Connection conn=DriverManager.getConnection(DB_CON_URL);
-		     PreparedStatement stmt=conn.prepareStatement(
-				     "UPDATE Employees SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
+		     PreparedStatement stmt=conn.prepareStatement("UPDATE Employees SET firstName=?, lastName=?, salary=?, leavingDate="+(isLeaving ? "date('now')" : "NULL")+" WHERE ID=?;"))
 		{
 			stmt.setString(1, firstName=firstName.trim());
 			stmt.setString(2, lastName=lastName.trim());
