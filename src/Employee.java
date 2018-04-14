@@ -188,7 +188,7 @@ public class Employee
 	}
 
 	@Override
-	public String toString()
+	public synchronized String toString()
 	{
 		return "Employee{"+
 		       "ID="+getID()+
